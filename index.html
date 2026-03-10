@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ניגונים חסידיים</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #ffd6ba, #ffe4b5);
+  text-align: center;
+}
+h1 { margin-bottom: 40px; color: #5b2c6f; }
+button {
+  width: 80%; max-width: 300px;
+  padding: 20px; margin: 20px;
+  font-size: 24px; border: none; border-radius: 20px;
+  cursor: pointer; background: #ff7f50; color: white;
+  transition: transform 0.2s, background 0.2s;
+}
+button:hover { transform: scale(1.05); background: #ff6347; }
+#sheet { max-width: 80%; margin-top: 20px; border: 2px solid #5b2c6f; border-radius: 10px; display: none; }
+</style>
+</head>
+<body>
+
+<h1>בחר ניגון</h1>
+
+<button onclick="play('berdichev.mp3','berdichev.png')">ניגון ברדיצ׳ב</button>
+<button onclick="play('besht.mp3','besht.png')">ניגון הבעש״ט</button>
+<button onclick="stopAudio()">עצור נגינה</button>
+
+<audio id="audio"></audio>
+<img id="sheet" alt="תווים">
+
+<script>
+let audio = document.getElementById('audio');
+
+function play(file, img) {
+  audio.src = file;
+  audio.volume = 0;
+  audio.play();
+  fadeIn(audio, 0.05);
+
+  const sheet = document.getElementById('sheet');
+  sheet.src = img;
+  sheet.style.display = 'block';
+}
+
+function stopAudio() {
+  fadeOut(audio, 0.05);
+}
+
+function fadeIn(audioElem, step) {
+  let vol = 0;
+  audioElem.volume = vol;
+  let interval = setInterval(() => {
+    vol += step;
+    if(vol >= 1) { vol = 1; clearInterval(interval); }
+    audioElem.volume = vol;
+  }, 100);
+}
+
+function fadeOut(audioElem, step) {
+  let vol = audioElem.volume;
+  let interval = setInterval(() => {
+    vol -= step;
+    if(vol <= 0) { vol = 0; audioElem.pause(); clearInterval(interval); }
+    audioElem.volume = vol;
+  }, 100);
+}
+</script>
+
+</body>
+</html>
